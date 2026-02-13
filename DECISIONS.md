@@ -18,3 +18,7 @@
 ## 2026-02-13 (OSS T1)
 - Adopt MIT license for broad reuse and low-friction external contributions.
 - Add explicit contributor/security/process docs and GitHub templates before public launch to reduce triage ambiguity and improve first-time contributor experience.
+
+## 2026-02-13 (OSS T2)
+- Build website as static HTML/CSS in-repo (`website/`) for fast load and easy deployment on any static host.
+- Prioritize visual clarity/accessibility over JS-heavy effects to keep performance and maintainability high.

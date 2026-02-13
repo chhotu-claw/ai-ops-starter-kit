@@ -50,6 +50,7 @@ DRY_RUN=1 ./scripts/apply-config.sh templates/org.sample.json
 - [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)
 - [SECURITY.md](./SECURITY.md)
 - [Release Readiness Checklist](./docs/RELEASE_READINESS_CHECKLIST.md)
+- [Showcase Website Notes](./docs/SHOWCASE_WEBSITE.md)
 
 ## Quickstart (one bootstrap flow)
 ```bash

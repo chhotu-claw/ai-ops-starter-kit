@@ -56,3 +56,14 @@
   - PR template
 - Added release readiness checklist:
   - `docs/RELEASE_READINESS_CHECKLIST.md`
+
+## 2026-02-13 (OSS T2 complete)
+- Built showcase website under `website/` with sections:
+  - Hero
+  - What it includes
+  - Architecture
+  - Presets
+  - Quickstart
+  - CTA
+- Implemented dark minimal technical aesthetic with mono labels and bracket accents.
+- Added responsive static styling and deployment notes in `docs/SHOWCASE_WEBSITE.md`.

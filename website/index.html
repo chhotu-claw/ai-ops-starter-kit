@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AI Ops Starter Kit — open-source starter for OpenClaw + Mattermost + Vikunja + automation workflows." />
+  <title>AI Ops Starter Kit</title>
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">[ AI OPS STARTER KIT ]</div>
+    <nav>
+      <a href="#includes">Includes</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#presets">Presets</a>
+      <a href="#quickstart">Quickstart</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="mono">OPEN SOURCE · MIT · CONFIG-AS-CODE</p>
+      <h1>Bootstrap an <span>AI Ops Stack</span> in minutes.</h1>
+      <p class="lead">Dark, minimal, production-minded starter for Mattermost, Vikunja, OpenClaw, and deterministic automations.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="https://github.com/chhotu-claw/ai-ops-starter-kit" target="_blank" rel="noreferrer">View Repository</a>
+        <a class="btn" href="#quickstart">Get Started</a>
+      </div>
+    </section>
+
+    <section id="includes" class="panel">
+      <h2>[ What it includes ]</h2>
+      <div class="grid three">
+        <article><h3>infra/</h3><p>Compose profiles, reverse proxy, database bootstrap, and runtime defaults.</p></article>
+        <article><h3>openclaw/</h3><p>Agent and cron config templates with deterministic-first execution patterns.</p></article>
+        <article><h3>automation/</h3><p>Dispatcher/watcher modules and config-driven orchestration scaffolds.</p></article>
+      </div>
+    </section>
+
+    <section id="architecture" class="panel">
+      <h2>[ Architecture ]</h2>
+      <pre class="ascii">Internet / Operator
+      |
+    Caddy
+   /     \
+Mattermost  Vikunja
+   \     /
+  Postgres + Redis
+      |
+  OpenClaw + Automation
+      </pre>
+      <p>Profiles: <strong>minimal</strong> (core), <strong>full</strong> (core + automation), <strong>prod</strong> (full + worker baseline).</p>
+    </section>
+
+    <section id="presets" class="panel">
+      <h2>[ Presets ]</h2>
+      <div class="grid three">
+        <article><h3>solo-founder</h3><p>Lean setup, low ops overhead, high clarity.</p></article>
+        <article><h3>small-agency</h3><p>Team channels, delivery tracking, automation rails.</p></article>
+        <article><h3>hiring-pipeline</h3><p>Task-driven recruiting workflow with deterministic notifications.</p></article>
+      </div>
+    </section>
+
+    <section id="quickstart" class="panel">
+      <h2>[ Quickstart ]</h2>
+      <pre><code>git clone https://github.com/chhotu-claw/ai-ops-starter-kit.git
+cd ai-ops-starter-kit
+make bootstrap
+make status</code></pre>
+      <p class="mono">Tip: use <code>SKIP_COMPOSE=1 make bootstrap</code> for seed-only configuration.</p>
+    </section>
+
+    <section class="panel cta">
+      <h2>[ Ready to launch your ops stack? ]</h2>
+      <p>Fork the starter, apply your org config, and ship deterministic AI operations.</p>
+      <a class="btn primary" href="https://github.com/chhotu-claw/ai-ops-starter-kit" target="_blank" rel="noreferrer">Fork on GitHub</a>
+    </section>
+  </main>
+
+  <footer>
+    <span>AI Ops Starter Kit</span>
+    <span class="mono">MIT</span>
+  </footer>
+</body>
+</html>
