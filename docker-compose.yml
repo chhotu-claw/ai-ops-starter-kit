@@ -1,0 +1,17 @@
+name: ai-ops-starter-kit
+
+services:
+  placeholder-core:
+    image: alpine:3.20
+    command: ["sh", "-c", "while true; do sleep 3600; done"]
+    profiles: ["minimal", "full", "prod"]
+
+  placeholder-automation:
+    image: alpine:3.20
+    command: ["sh", "-c", "while true; do sleep 3600; done"]
+    profiles: ["full", "prod"]
+
+  placeholder-observability:
+    image: alpine:3.20
+    command: ["sh", "-c", "while true; do sleep 3600; done"]
+    profiles: ["prod"]
