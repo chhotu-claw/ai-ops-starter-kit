@@ -3,7 +3,8 @@
 ## Quick install
 Run the installer with a single command:
 ```bash
-bash <(curl -fsSL https://aiops.chhotu.online/install.sh)
+curl -fsSL https://aiops.chhotu.online/install.sh -o install.sh
+bash install.sh
 ```
 
 Or download and inspect locally:
@@ -33,10 +34,12 @@ make doctor
 ## Non-interactive examples
 ```bash
 # Skip prompts and use defaults
-CADDY_HTTP_PORT=8080 bash <(curl -fsSL https://aiops.chhotu.online/install.sh)
+CADDY_HTTP_PORT=8080 curl -fsSL https://aiops.chhotu.online/install.sh -o install.sh
+bash install.sh
 
 # Custom port and install directory
-CADDY_HTTP_PORT=18080 INSTALL_DIR=~/my-aiops bash <(curl -fsSL https://aiops.chhotu.online/install.sh)
+CADDY_HTTP_PORT=18080 INSTALL_DIR=~/my-aiops curl -fsSL https://aiops.chhotu.online/install.sh -o install.sh
+bash install.sh
 ```
 
 ## Customization (environment variables)
@@ -81,7 +84,8 @@ If `CADDY_HTTP_PORT=8080` fails:
 sudo lsof -i :8080
 
 # Use a different port
-CADDY_HTTP_PORT=18080 bash <(curl -fsSL https://aiops.chhotu.online/install.sh)
+CADDY_HTTP_PORT=18080 curl -fsSL https://aiops.chhotu.online/install.sh -o install.sh
+bash install.sh
 ```
 
 ### Bootstrap fails mid-way
@@ -137,3 +141,16 @@ The installer script lives at:
 - Hosted: `https://aiops.chhotu.online/install.sh`
 
 It is idempotent — rerunning prompts to remove the existing installation first.
+
+## Troubleshooting
+
+### "syntax error near unexpected token \`newline'" with process substitution
+If you see errors like:
+```
+/dev/fd/63: line 1: syntax error near unexpected token `newline'
+```
+This can happen on some systems with `bash <(curl ...)`. Use the safer two-step approach instead:
+```bash
+curl -fsSL https://aiops.chhotu.online/install.sh -o install.sh
+bash install.sh
+```
