@@ -2,7 +2,17 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-Starter monorepo to bootstrap an AI operations stack (OpenClaw + Vikunja + Mattermost + automation workers).
+Starter monorepo to bootstrap an AI operations stack (OpenClaw + Vikunja + Mattermost + deterministic automation workers).
+
+## Website
+- Showcase site source: `website/`
+- Local preview:
+  ```bash
+  cd website
+  python3 -m http.server 8088
+  # open http://localhost:8088
+  ```
+- Public URL: **TBD** (deploy target not set in this repo yet)
 
 ## Architecture
 - `infra/` — reverse proxy and infra wiring
@@ -26,6 +36,14 @@ Use Makefile targets:
 - `make backup`
 - `make restore`
 - `make upgrade`
+
+## One-command installer
+See `docs/INSTALLER.md`.
+
+Expected hosted UX:
+```bash
+bash <(curl -fsSL https://aiops.chhotu.online/install.sh)
+```
 
 ## Config-as-code
 Declarative org config file:
@@ -56,16 +74,18 @@ DRY_RUN=1 ./scripts/apply-config.sh templates/org.sample.json
 ```bash
 make bootstrap
 make status
+make doctor
 ```
 
 Bootstrap does:
 1. Generates `.env` (if missing)
 2. Starts compose profile (`COMPOSE_PROFILES`, default `minimal`)
-3. Seeds baseline Vikunja project + labels
-4. Seeds baseline Mattermost team + channels
+3. (Optional) Seeds baseline Vikunja project + labels (requires `VIKUNJA_TOKEN`)
+4. (Optional) Seeds baseline Mattermost team + channels (requires `MATTERMOST_BOT_TOKEN`)
 5. Loads default OpenClaw cron jobs
 6. Writes default automation seed artifacts
 
-Default local URLs:
-- Mattermost: `http://localhost:8080`
-- Vikunja: `http://localhost:8080/vikunja`
+Default local URLs (override port with `CADDY_HTTP_PORT`):
+- Mattermost: `http://localhost:${CADDY_HTTP_PORT:-8080}`
+- Vikunja: `http://localhost:${CADDY_HTTP_PORT:-8080}/vikunja`
+- Health: `http://localhost:${CADDY_HTTP_PORT:-8080}/healthz`

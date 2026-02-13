@@ -67,3 +67,13 @@
   - CTA
 - Implemented dark minimal technical aesthetic with mono labels and bracket accents.
 - Added responsive static styling and deployment notes in `docs/SHOWCASE_WEBSITE.md`.
+
+## 2026-02-13 (Installer T1 complete)
+- Added one-command installer core: `scripts/install.sh`
+  - interactive + `--yes` non-interactive mode
+  - prereq checks
+  - prompt flow (domain/preset/timezone/port/admin email)
+  - release tarball + checksum download/verification
+  - extract + env generation + preset apply + bootstrap
+  - post-install health checks + summary output
+- Added installer docs: `docs/INSTALLER.md`

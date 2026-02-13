@@ -22,3 +22,7 @@
 ## 2026-02-13 (OSS T2)
 - Build website as static HTML/CSS in-repo (`website/`) for fast load and easy deployment on any static host.
 - Prioritize visual clarity/accessibility over JS-heavy effects to keep performance and maintainability high.
+
+## 2026-02-13 (Installer T1)
+- Installer uses release tarballs + checksum verification (no `git clone`) to keep install UX fast and supply-chain checks explicit.
+- Support both interactive and non-interactive (`--yes`) installer paths for trial users and automation contexts.
