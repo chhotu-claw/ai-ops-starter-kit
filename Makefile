@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: bootstrap status doctor backup restore upgrade
+.PHONY: bootstrap status doctor backup restore upgrade apply-config
 
 bootstrap:
 	./scripts/bootstrap.sh
@@ -19,3 +19,6 @@ restore:
 
 upgrade:
 	./scripts/upgrade.sh
+
+apply-config:
+	./scripts/apply-config.sh templates/org.sample.json

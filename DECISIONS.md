@@ -1,10 +1,16 @@
-# Decisions — ai-ops-starter-kit
+# DECISIONS
 
-## 2026-02-13 — Profile-first compose layout
-Created compose profile tiers (minimal/full/prod) at scaffold stage to keep later service wiring predictable.
+## 2026-02-13
+- Use Caddy as reverse proxy for simple local path routing (`/` Mattermost, `/vikunja` Vikunja) to keep dev bootstrap friction low.
+- Use one Postgres service with separate logical DBs/users for Mattermost and Vikunja via init script.
+- Keep automation services optional and profile-gated (`full`/`prod`) with lightweight placeholder workers until feature tasks wire real code.
+- Keep stack self-contained under one compose file and profiles for predictable onboarding.
 
-## 2026-02-13 — Makefile UX façade
-Added stable operator command surface early, even with placeholder internals, to preserve CLI compatibility as implementation deepens.
+## 2026-02-13 (T3)
+- Bootstrap should be rerunnable and idempotent; seed scripts must check for existing resources and skip when present.
+- Keep per-system seed scripts separate (Mattermost/Vikunja/OpenClaw/automation) for easier troubleshooting.
 
-## 2026-02-13 — Bootstrap orchestrates idempotent seed loaders
-Bootstrap now handles env generation + baseline resource seeding in one flow. Each loader checks existence first, so reruns are safe.
+## 2026-02-13 (T4)
+- Define one declarative org config (`templates/org.sample.json`) and a single apply entrypoint (`scripts/apply-config.sh`).
+- Treat Vikunja "templates" as idempotent task-template stubs (`TEMPLATE: <name>`) until native template API wiring is added.
+- Provide dry-run mode (`DRY_RUN=1`) for safe config plan checks before apply.

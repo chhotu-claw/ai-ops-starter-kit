@@ -1,0 +1,61 @@
+{
+  "org": {
+    "name": "aiops",
+    "timezone": "Asia/Dubai"
+  },
+  "mattermost": {
+    "team": {
+      "name": "aiops",
+      "display_name": "AI Ops",
+      "type": "I"
+    },
+    "channels": [
+      { "name": "ops", "display_name": "Ops", "type": "O", "purpose": "Operations coordination" },
+      { "name": "vikunja-feed", "display_name": "Vikunja Feed", "type": "O", "purpose": "Task events" },
+      { "name": "automation", "display_name": "Automation", "type": "O", "purpose": "Automation logs" }
+    ],
+    "webhooks": [
+      { "display_name": "Vikunja Bridge", "channel": "vikunja-feed", "description": "Incoming webhook for task notifications" }
+    ]
+  },
+  "vikunja": {
+    "project": {
+      "title": "AI Ops Starter Project",
+      "description": "Seed project for starter kit"
+    },
+    "labels": [
+      { "title": "assigned", "hex_color": "eab308" },
+      { "title": "in-progress", "hex_color": "3b82f6" },
+      { "title": "done", "hex_color": "10b981" },
+      { "title": "blocked", "hex_color": "ef4444" }
+    ],
+    "templates": [
+      {
+        "name": "Task Template — Build",
+        "description": "## Goal\nBuild the requested feature.\n\n## Acceptance\n- tests pass\n- docs updated"
+      },
+      {
+        "name": "Task Template — Incident",
+        "description": "## Goal\nDiagnose and resolve incident safely.\n\n## Acceptance\n- root cause identified\n- rollback/mitigation documented"
+      }
+    ]
+  },
+  "openclaw": {
+    "cron_jobs": [
+      {
+        "name": "Starter Health Pulse",
+        "schedule": { "every": "10m" },
+        "agent": "infra",
+        "session": "isolated",
+        "message": "Reply HEARTBEAT_OK."
+      },
+      {
+        "name": "Starter Task Watcher",
+        "schedule": { "every": "5m" },
+        "agent": "task-tracker",
+        "session": "isolated",
+        "message": "Run watcher sweep and reply HEARTBEAT_OK."
+      }
+    ]
+  }
+}

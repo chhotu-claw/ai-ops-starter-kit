@@ -1,20 +1,46 @@
-# Current State — ai-ops-starter-kit
+# CURRENT_STATE
 
-## Status
-T1 scaffold complete.
+## 2026-02-13 (T2 complete)
+- Replaced placeholder compose with real stack wiring:
+  - postgres (shared)
+  - redis
+  - mattermost
+  - vikunja
+  - caddy reverse proxy
+  - optional automation services (dispatcher, bridge, openclaw-worker)
+- Added profile behavior:
+  - `minimal`: core stack only
+  - `full`: core + automation-dispatcher + webhook-bridge
+  - `prod`: full + openclaw-worker
+- Added Caddy config (`infra/Caddyfile`) with:
+  - `/` -> Mattermost
+  - `/vikunja` -> Vikunja
+  - `/healthz` probe endpoint
+- Added Postgres bootstrap init script (`infra/initdb/10-create-app-dbs.sh`) to create separate Mattermost and Vikunja DB/users.
+- Updated bootstrap/status/doctor scripts to execute real compose actions and checks.
 
-## Implemented
-- Repo structure: infra/openclaw/automation/templates/scripts/docs
-- Compose scaffold with profiles: minimal/full/prod
-- Makefile command surface: status/doctor/backup/restore/upgrade/bootstrap
-- Bootstrap + seeding flow (`make bootstrap`) with idempotent loaders
-- Seed templates:
+## 2026-02-13 (T3 complete)
+- Added one-flow bootstrap orchestration (`scripts/bootstrap.sh`) for:
+  - env generation
+  - optional compose startup
+  - idempotent seed execution
+- Added seed templates under `templates/seeds/` for:
   - Mattermost team/channels
   - Vikunja project/labels
   - OpenClaw cron jobs
-  - default automation artifacts
-- Seed scripts:
+  - automation defaults
+- Added seed scripts:
   - `scripts/seed-mattermost.sh`
   - `scripts/seed-vikunja.sh`
   - `scripts/seed-openclaw-cron.sh`
   - `scripts/seed-automations.sh`
+- Added shared script helpers in `scripts/lib.sh` with safer `.env` parsing.
+
+## 2026-02-13 (T4 complete)
+- Added declarative config-as-code sample: `templates/org.sample.json`
+- Added idempotent unified apply loader: `scripts/apply-config.sh`
+  - Mattermost: team/channel/webhook
+  - Vikunja: project/labels/template stubs
+  - OpenClaw: cron jobs
+- Added Make target `apply-config`.
+- Verified idempotent apply behavior (dry-run and rerun-safe checks).

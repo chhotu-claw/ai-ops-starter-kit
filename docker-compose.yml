@@ -105,7 +105,7 @@ services:
       - vikunja-data:/app/vikunja/files
       - vikunja-files:/app/vikunja/config
     healthcheck:
-      test: ["CMD", "vikunja", "version"]
+      test: ["CMD", "/app/vikunja/vikunja", "version"]
       interval: 15s
       timeout: 10s
       retries: 20
