@@ -44,3 +44,15 @@
   - OpenClaw: cron jobs
 - Added Make target `apply-config`.
 - Verified idempotent apply behavior (dry-run and rerun-safe checks).
+
+## 2026-02-13 (OSS T1 complete)
+- Added MIT `LICENSE`
+- Added OSS community and security docs:
+  - `CONTRIBUTING.md`
+  - `CODE_OF_CONDUCT.md`
+  - `SECURITY.md`
+- Added GitHub templates:
+  - issue templates (bug + feature + config)
+  - PR template
+- Added release readiness checklist:
+  - `docs/RELEASE_READINESS_CHECKLIST.md`

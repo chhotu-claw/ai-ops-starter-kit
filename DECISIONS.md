@@ -14,3 +14,7 @@
 - Define one declarative org config (`templates/org.sample.json`) and a single apply entrypoint (`scripts/apply-config.sh`).
 - Treat Vikunja "templates" as idempotent task-template stubs (`TEMPLATE: <name>`) until native template API wiring is added.
 - Provide dry-run mode (`DRY_RUN=1`) for safe config plan checks before apply.
+
+## 2026-02-13 (OSS T1)
+- Adopt MIT license for broad reuse and low-friction external contributions.
+- Add explicit contributor/security/process docs and GitHub templates before public launch to reduce triage ambiguity and improve first-time contributor experience.

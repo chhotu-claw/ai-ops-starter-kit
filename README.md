@@ -1,5 +1,7 @@
 # AI Ops Starter Kit
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 Starter monorepo to bootstrap an AI operations stack (OpenClaw + Vikunja + Mattermost + automation workers).
 
 ## Architecture
@@ -42,6 +44,12 @@ Dry-run:
 ```bash
 DRY_RUN=1 ./scripts/apply-config.sh templates/org.sample.json
 ```
+
+## Open Source Docs
+- [CONTRIBUTING.md](./CONTRIBUTING.md)
+- [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)
+- [SECURITY.md](./SECURITY.md)
+- [Release Readiness Checklist](./docs/RELEASE_READINESS_CHECKLIST.md)
 
 ## Quickstart (one bootstrap flow)
 ```bash

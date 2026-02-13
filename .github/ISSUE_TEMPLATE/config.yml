@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security reports
+    url: https://github.com/chhotu-claw/ai-ops-starter-kit/security/policy
+    about: Report vulnerabilities privately via SECURITY.md process.
