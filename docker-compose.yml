@@ -1,17 +1,165 @@
 name: ai-ops-starter-kit
 
+networks:
+  aiops-net:
+    driver: bridge
+
+volumes:
+  mm-postgres-data:
+  mattermost-config:
+  mattermost-data:
+  mattermost-logs:
+  mattermost-plugins:
+  mattermost-client-plugins:
+  vikunja-data:
+  vikunja-files:
+  redis-data:
+
 services:
-  placeholder-core:
-    image: alpine:3.20
-    command: ["sh", "-c", "while true; do sleep 3600; done"]
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: ${POSTGRES_ROOT_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASSWORD:-postgres_change_me}
+      MM_DB_USER: ${MM_DB_USER:-mattermost}
+      MM_DB_PASSWORD: ${MM_DB_PASSWORD:-mattermost_change_me}
+      MM_DB_NAME: ${MM_DB_NAME:-mattermost}
+      VK_DB_USER: ${VK_DB_USER:-vikunja}
+      VK_DB_PASSWORD: ${VK_DB_PASSWORD:-vikunja_change_me}
+      VK_DB_NAME: ${VK_DB_NAME:-vikunja}
+    volumes:
+      - mm-postgres-data:/var/lib/postgresql/data
+      - ./infra/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_ROOT_USER:-postgres} -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - aiops-net
     profiles: ["minimal", "full", "prod"]
 
-  placeholder-automation:
-    image: alpine:3.20
-    command: ["sh", "-c", "while true; do sleep 3600; done"]
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - aiops-net
+    profiles: ["minimal", "full", "prod"]
+
+  mattermost:
+    image: mattermost/mattermost-team-edition:11.3.0
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      MM_SQLSETTINGS_DRIVERNAME: postgres
+      MM_SQLSETTINGS_DATASOURCE: postgres://${MM_DB_USER:-mattermost}:${MM_DB_PASSWORD:-mattermost_change_me}@postgres:5432/${MM_DB_NAME:-mattermost}?sslmode=disable&connect_timeout=10
+      MM_SERVICESETTINGS_SITEURL: ${MATTERMOST_SITEURL:-http://localhost:${CADDY_HTTP_PORT:-8080}}
+      MM_SERVICESETTINGS_LISTENADDRESS: :8065
+      MM_TEAMSETTINGS_SITENAME: ${MATTERMOST_SITE_NAME:-AI Ops Chat}
+    volumes:
+      - mattermost-config:/mattermost/config
+      - mattermost-data:/mattermost/data
+      - mattermost-logs:/mattermost/logs
+      - mattermost-plugins:/mattermost/plugins
+      - mattermost-client-plugins:/mattermost/client/plugins
+    healthcheck:
+      test: ["CMD", "/mattermost/bin/mattermost", "version"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+    networks:
+      - aiops-net
+    profiles: ["minimal", "full", "prod"]
+
+  vikunja:
+    image: vikunja/vikunja:0.24.6
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      VIKUNJA_SERVICE_PUBLICURL: ${VIKUNJA_PUBLIC_URL:-http://localhost:${CADDY_HTTP_PORT:-8080}/vikunja}
+      VIKUNJA_DATABASE_TYPE: postgres
+      VIKUNJA_DATABASE_HOST: postgres
+      VIKUNJA_DATABASE_USER: ${VK_DB_USER:-vikunja}
+      VIKUNJA_DATABASE_PASSWORD: ${VK_DB_PASSWORD:-vikunja_change_me}
+      VIKUNJA_DATABASE_DATABASE: ${VK_DB_NAME:-vikunja}
+      VIKUNJA_REDIS_ENABLED: "true"
+      VIKUNJA_REDIS_HOST: redis:6379
+      VIKUNJA_SERVICE_ENABLEREGISTRATION: "false"
+    volumes:
+      - vikunja-data:/app/vikunja/files
+      - vikunja-files:/app/vikunja/config
+    healthcheck:
+      test: ["CMD", "vikunja", "version"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+    networks:
+      - aiops-net
+    profiles: ["minimal", "full", "prod"]
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      mattermost:
+        condition: service_started
+      vikunja:
+        condition: service_started
+    ports:
+      - "${CADDY_HTTP_PORT:-8080}:80"
+    volumes:
+      - ./infra/Caddyfile:/etc/caddy/Caddyfile:ro
+    healthcheck:
+      test: ["CMD", "caddy", "version"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+    networks:
+      - aiops-net
+    profiles: ["minimal", "full", "prod"]
+
+  automation-dispatcher:
+    image: node:22-alpine
+    restart: unless-stopped
+    working_dir: /work
+    command: ["sh", "-c", "while true; do echo '[automation-dispatcher] heartbeat'; sleep 120; done"]
+    environment:
+      VIKUNJA_URL: ${VIKUNJA_URL:-http://vikunja:3456}
+      MATTERMOST_URL: ${MATTERMOST_URL:-http://mattermost:8065}
+    networks:
+      - aiops-net
     profiles: ["full", "prod"]
 
-  placeholder-observability:
-    image: alpine:3.20
-    command: ["sh", "-c", "while true; do sleep 3600; done"]
+  webhook-bridge:
+    image: node:22-alpine
+    restart: unless-stopped
+    command: ["sh", "-c", "while true; do echo '[webhook-bridge] ready'; sleep 120; done"]
+    networks:
+      - aiops-net
+    profiles: ["full", "prod"]
+
+  openclaw-worker:
+    image: node:22-alpine
+    restart: unless-stopped
+    command: ["sh", "-c", "while true; do echo '[openclaw-worker] idle'; sleep 180; done"]
+    environment:
+      OPENCLAW_GATEWAY_PORT: ${OPENCLAW_GATEWAY_PORT:-18789}
+    networks:
+      - aiops-net
     profiles: ["prod"]

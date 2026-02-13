@@ -2,20 +2,20 @@
 
 Starter monorepo to bootstrap an AI operations stack (OpenClaw + Vikunja + Mattermost + automation workers).
 
-## Architecture (T1 scaffold)
-- `infra/` — docker-compose, networking, persistence primitives
+## Architecture
+- `infra/` — reverse proxy and infra wiring
 - `openclaw/` — agent, cron, and runtime config templates
 - `automation/` — dispatcher/watcher/bridge service modules
 - `templates/` — env/config templates for deployments
 - `scripts/` — bootstrap, health checks, backup/restore, upgrades
 - `docs/` — quickstart, hardening, troubleshooting, runbooks
 
-## Compose profiles
-- `minimal` — base core services only
-- `full` — core + automation + observability helpers
-- `prod` — hardened baseline (resource/restart/logging defaults)
+## Compose Profiles
+- `minimal` — postgres + redis + mattermost + vikunja + caddy
+- `full` — minimal + automation-dispatcher + webhook-bridge
+- `prod` — full + openclaw-worker
 
-## Command surface
+## Commands
 Use Makefile targets:
 - `make bootstrap`
 - `make status`
@@ -24,11 +24,20 @@ Use Makefile targets:
 - `make restore`
 - `make upgrade`
 
-## Quickstart
+## Quickstart (one bootstrap flow)
 ```bash
-cp templates/.env.example .env
 make bootstrap
 make status
 ```
 
-> This is T1 architecture scaffold; concrete service wiring and seeders arrive in later tasks.
+Bootstrap does:
+1. Generates `.env` (if missing)
+2. Starts compose profile (`COMPOSE_PROFILES`, default `minimal`)
+3. Seeds baseline Vikunja project + labels
+4. Seeds baseline Mattermost team + channels
+5. Loads default OpenClaw cron jobs
+6. Writes default automation seed artifacts
+
+Default local URLs:
+- Mattermost: `http://localhost:8080`
+- Vikunja: `http://localhost:8080/vikunja`

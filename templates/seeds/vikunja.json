@@ -1,0 +1,9 @@
+{
+  "project": { "title": "AI Ops Starter Project", "description": "Seed project for starter kit" },
+  "labels": [
+    { "title": "assigned", "hex_color": "eab308" },
+    { "title": "in-progress", "hex_color": "3b82f6" },
+    { "title": "done", "hex_color": "10b981" },
+    { "title": "blocked", "hex_color": "ef4444" }
+  ]
+}

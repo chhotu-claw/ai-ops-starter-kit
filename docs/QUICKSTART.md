@@ -1,5 +1,31 @@
 # Quickstart
-1. Copy env template: `cp templates/.env.example .env`
-2. Choose profile (`minimal|full|prod`) in `.env`
-3. Run: `make bootstrap`
-4. Verify: `make status` and `make doctor`
+
+1. Run bootstrap:
+   ```bash
+   make bootstrap
+   ```
+2. Verify:
+   ```bash
+   make status
+   make doctor
+   ```
+
+Bootstrap flow performs:
+- `.env` generation (if missing)
+- compose startup (default profile: `minimal`)
+- seed loaders (Mattermost/Vikunja/OpenClaw cron/automation)
+
+## Seed-only mode (skip stack startup)
+```bash
+SKIP_COMPOSE=1 make bootstrap
+```
+
+## Profiles
+- `minimal`: core collaboration stack only
+- `full`: core + automation placeholders
+- `prod`: full + extra worker
+
+## URLs (default)
+- Mattermost: `http://localhost:8080`
+- Vikunja: `http://localhost:8080/vikunja`
+- Health: `http://localhost:8080/healthz`

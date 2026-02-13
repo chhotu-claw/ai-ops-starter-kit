@@ -1,0 +1,18 @@
+{
+  "jobs": [
+    {
+      "name": "Starter Health Pulse",
+      "schedule": { "every": "10m" },
+      "agent": "infra",
+      "session": "isolated",
+      "message": "Reply HEARTBEAT_OK."
+    },
+    {
+      "name": "Starter Task Watcher",
+      "schedule": { "every": "5m" },
+      "agent": "task-tracker",
+      "session": "isolated",
+      "message": "Run watcher sweep and reply HEARTBEAT_OK."
+    }
+  ]
+}

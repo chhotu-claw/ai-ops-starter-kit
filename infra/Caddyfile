@@ -1,0 +1,15 @@
+:80 {
+	encode zstd gzip
+
+	handle /healthz {
+		respond "ok" 200
+	}
+
+	handle_path /vikunja* {
+		reverse_proxy vikunja:3456
+	}
+
+	handle {
+		reverse_proxy mattermost:8065
+	}
+}

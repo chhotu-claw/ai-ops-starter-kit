@@ -1,7 +1,19 @@
-# Architecture Notes (T1)
-This scaffold separates infra/runtime/config/automation/docs for clean staged delivery.
+# Architecture Notes (T2)
+
+Compose services:
+- `postgres` (shared DB)
+- `redis`
+- `mattermost`
+- `vikunja`
+- `caddy` reverse proxy
+- optional automation workers (`automation-dispatcher`, `webhook-bridge`, `openclaw-worker`)
 
 Profiles:
-- minimal: fast local bootstrap
-- full: feature-complete dev environment
-- prod: hardened baseline
+- `minimal`: postgres + redis + mattermost + vikunja + caddy
+- `full`: minimal + automation-dispatcher + webhook-bridge
+- `prod`: full + openclaw-worker
+
+Default local endpoints:
+- Mattermost: `http://localhost:8080`
+- Vikunja: `http://localhost:8080/vikunja`
+- Health: `http://localhost:8080/healthz`

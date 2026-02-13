@@ -1,0 +1,8 @@
+{
+  "team": { "name": "aiops", "display_name": "AI Ops", "type": "I" },
+  "channels": [
+    { "name": "ops", "display_name": "Ops", "type": "O", "purpose": "Operations coordination" },
+    { "name": "vikunja-feed", "display_name": "Vikunja Feed", "type": "O", "purpose": "Task events" },
+    { "name": "automation", "display_name": "Automation", "type": "O", "purpose": "Automation logs" }
+  ]
+}

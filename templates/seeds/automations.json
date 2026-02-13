@@ -1,0 +1,6 @@
+{
+  "services": [
+    { "name": "dispatcher", "path": "automation/generated/dispatcher.json", "enabled": true },
+    { "name": "watcher", "path": "automation/generated/watcher.json", "enabled": true }
+  ]
+}
