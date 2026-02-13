@@ -21,7 +21,7 @@ Installs:
   • Mattermost (chat)
   • Vikunja (tasks)
   • 5 OpenClaw agents with configs
-  • Cron jobs for dispatching
+  • Dispatcher cron job
 
 EOF
   exit 0
@@ -48,10 +48,9 @@ setup_agents(){
   log "Setting up agents..."
   mkdir -p ~/ai-ops-starter-kit/openclaw/agents
 
-  # Clone 5 agents
   for agent in chief-of-staff builder infra research task-tracker; do
     git clone "https://github.com/chhotu-claw/workspace-${agent}.git" ~/ai-ops-starter-kit/openclaw/agents/$agent 2>/dev/null || {
-      warn "Failed to clone $agent (may not exist yet)"
+      warn "Failed to clone $agent"
     }
   done
   ok "Agents ready"
@@ -93,26 +92,15 @@ EOF
 }
 
 setup_crons(){
-  log "Setting up cron jobs..."
+  log "Setting up dispatcher cron..."
   mkdir -p ~/ai-ops-starter-kit/crons
 
   cat > ~/ai-ops-starter-kit/crons/dispatcher << 'EOF'
 * * * * * cd ~/ai-ops-starter-kit && ./scripts/dispatcher.sh
 EOF
 
-  cat > ~/ai-ops-starter-kit/crons/ideas-sweep << 'EOF'
-*/15 * * * * cd ~/ai-ops-starter-kit && ./scripts/ideas-sweep.sh
-EOF
-
-  cat > ~/ai-ops-starter-kit/crons/health << 'EOF'
-*/5 * * * * cd ~/ai-ops-starter-kit && ./scripts/health-check.sh
-EOF
-
-  # Copy crontab
   crontab ~/ai-ops-starter-kit/crons/dispatcher 2>/dev/null || true
-  crontab ~/ai-ops-starter-kit/crons/ideas-sweep 2>/dev/null || true
-  crontab ~/ai-ops-starter-kit/crons/health 2>/dev/null || true
-  ok "Crons installed"
+  ok "Dispatcher cron installed"
 }
 
 setup_infra(){
