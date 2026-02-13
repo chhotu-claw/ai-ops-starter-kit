@@ -3,13 +3,13 @@
 ## Quick install
 Run the installer with a single command:
 ```bash
-curl -fsSL https://aiops.chhotu.online/install.sh -o install.sh
+curl -fsSL https://aiops.chhotu.online/scripts/install.sh -o install.sh
 bash install.sh
 ```
 
 Or download and inspect locally:
 ```bash
-curl -fsSL https://aiops.chhotu.online/install.sh -o install.sh
+curl -fsSL https://aiops.chhotu.online/scripts/install.sh -o install.sh
 bash install.sh
 ```
 
@@ -34,11 +34,11 @@ make doctor
 ## Non-interactive examples
 ```bash
 # Skip prompts and use defaults
-CADDY_HTTP_PORT=8080 curl -fsSL https://aiops.chhotu.online/install.sh -o install.sh
+CADDY_HTTP_PORT=8080 curl -fsSL https://aiops.chhotu.online/scripts/install.sh -o install.sh
 bash install.sh
 
 # Custom port and install directory
-CADDY_HTTP_PORT=18080 INSTALL_DIR=~/my-aiops curl -fsSL https://aiops.chhotu.online/install.sh -o install.sh
+CADDY_HTTP_PORT=18080 INSTALL_DIR=~/my-aiops curl -fsSL https://aiops.chhotu.online/scripts/install.sh -o install.sh
 bash install.sh
 ```
 
@@ -84,7 +84,7 @@ If `CADDY_HTTP_PORT=8080` fails:
 sudo lsof -i :8080
 
 # Use a different port
-CADDY_HTTP_PORT=18080 curl -fsSL https://aiops.chhotu.online/install.sh -o install.sh
+CADDY_HTTP_PORT=18080 curl -fsSL https://aiops.chhotu.online/scripts/install.sh -o install.sh
 bash install.sh
 ```
 
@@ -138,7 +138,7 @@ rm -rf ~/aiops-install
 ## Source
 The installer script lives at:
 - Repo: `install.sh`
-- Hosted: `https://aiops.chhotu.online/install.sh`
+- Hosted: `https://aiops.chhotu.online/scripts/install.sh`
 
 It is idempotent — rerunning prompts to remove the existing installation first.
 
@@ -151,6 +151,6 @@ If you see errors like:
 ```
 This can happen on some systems with `bash <(curl ...)`. Use the safer two-step approach instead:
 ```bash
-curl -fsSL https://aiops.chhotu.online/install.sh -o install.sh
+curl -fsSL https://aiops.chhotu.online/scripts/install.sh -o install.sh
 bash install.sh
 ```
