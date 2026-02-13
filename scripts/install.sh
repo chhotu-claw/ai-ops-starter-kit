@@ -12,6 +12,7 @@ NC='\033[0m'
 log(){ echo -e "${BLUE}[installer]${NC} $*"; }
 ok(){ echo -e "${GREEN}[✓]${NC} $*"; }
 warn(){ echo -e "${YELLOW}[!]${NC} $*"; }
+err(){ echo -e "${RED}[✗]${NC} $*"; exit 1; }
 
 usage(){
   cat <<EOF
@@ -33,7 +34,7 @@ done
 
 check_prereqs(){
   for cmd in git curl docker; do
-    command -v "$cmd" >/dev/null || { err "Missing: $cmd"; exit 1; }
+    command -v "$cmd" >/dev/null || err "Missing: $cmd"
   done
 }
 
@@ -49,9 +50,7 @@ setup_agents(){
   mkdir -p ~/ai-ops-starter-kit/openclaw/agents
 
   for agent in chief-of-staff builder infra research task-tracker; do
-    git clone "https://github.com/chhotu-claw/workspace-${agent}.git" ~/ai-ops-starter-kit/openclaw/agents/$agent 2>/dev/null || {
-      warn "Failed to clone $agent"
-    }
+    git clone "https://github.com/chhotu-claw/workspace-${agent}.git" ~/ai-ops-starter-kit/openclaw/agents/$agent 2>/dev/null || warn "Failed to clone $agent"
   done
   ok "Agents ready"
 }
