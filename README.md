@@ -42,7 +42,7 @@ See `docs/INSTALLER.md`.
 
 Expected hosted UX:
 ```bash
-bash <(curl -fsSL https://aiops.chhotu.online/install.sh)
+bash <(curl -fsSL https://aiops.chhotu.online/scripts/install.sh)
 ```
 
 ## Config-as-code
