@@ -77,3 +77,13 @@
   - extract + env generation + preset apply + bootstrap
   - post-install health checks + summary output
 - Added installer docs: `docs/INSTALLER.md`
+
+## 2026-02-13 (Installer T2 complete)
+- Added release packaging script: `scripts/package-release.sh`
+  - builds versioned tar.gz (excludes .git/.env/node_modules)
+  - generates SHA256SUMS
+  - creates `latest.json` manifest with version, tarball_url, checksum_url, released_at
+  - supports `--publish` to copy artifacts to webroot
+  - auto-detects version from VERSION file
+- Added VERSION file (`0.1.0`)
+

@@ -22,3 +22,9 @@ upgrade:
 
 apply-config:
 	./scripts/apply-config.sh templates/org.sample.json
+
+package-release:
+	./scripts/package-release.sh --version $$(cat VERSION) --output releases
+
+release-publish:
+	./scripts/package-release.sh --version $$(cat VERSION) --output releases --publish

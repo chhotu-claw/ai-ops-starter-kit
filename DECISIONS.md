@@ -26,3 +26,7 @@
 ## 2026-02-13 (Installer T1)
 - Installer uses release tarballs + checksum verification (no `git clone`) to keep install UX fast and supply-chain checks explicit.
 - Support both interactive and non-interactive (`--yes`) installer paths for trial users and automation contexts.
+
+## 2026-02-13 (Installer T2)
+- Release artifacts are versioned tarballs with SHA256SUMS and a `latest.json` manifest for installer discovery.
+- Packaging script generates self-contained artifacts that can be hosted on any static file server (e.g., chhotu.online webroot).

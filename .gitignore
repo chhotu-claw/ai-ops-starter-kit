@@ -1,4 +1,5 @@
 .env
 *.log
 .DS_Store
+releases/
 automation/generated/*.json
